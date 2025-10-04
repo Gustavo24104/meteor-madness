@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "cesium": "^1.134.0",
+    "react-bootstrap": "^2.10.10"
+  }
+}
