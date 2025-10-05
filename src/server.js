@@ -59,24 +59,20 @@ app.get('/api/nasa-neo', async (req, res) => {
 
   //ssd-api.jpl.nasa.gov/sbdb.api
 // https://api.nasa.gov/neo/rest/v1/neo/2001862?api_key=liMvpY42qNeCxtxbrf7B1oUMM8urB0UdHiHfRMNo
-  const nasaApiUrl = `https://api.nasa.gov/neo/rest/v1/neo/${spkid}?api_key=${NASA_API_KEY}`;
+  const nasaApiUrl = `https://api.nasa.gov/neo/rest/v1/neo/${spkid}?api_key=${api_key}`;
   let apiResponse;
 
   try {
     console.log(`REQUISICAO DO NEO SER TIPO: ${nasaApiUrl}`);
 
-    //apiResponse = await axios.get(nasaApiUrl);
+    apiResponse = await axios.get(nasaApiUrl);
 
-    //res.json(apiResponse.data);
-    //console.log(JSON.parse(apiResponse.data).spkid);
+    res.json(apiResponse.data);
+    console.log(JSON.parse(apiResponse.data).spkid);
 
   } catch (error) {
-    if(error.status == 300) {
-      res.status(300);
-      res.json(error.response.data);
-    }
     // Se der erro, repassa uma mensagem de erro para o frontend
-    else res.status(500).json({ error: error });
+    res.status(500).json({ error: error });
   }
 });
 

@@ -67,7 +67,6 @@ function SDBDQuery() {
       return;
     }
 
-    alert("Found: " + SDBDData.object.fullname);
     NEOQuery(SDBDData.object.spkid);    
     console.log("Original spkid: " + SDBDData.object.spkid);
   })
@@ -95,12 +94,11 @@ function NEOQuery(spkid: String) {
     return response.json();
   })
   .then(data => {
-    alert(JSON.stringify(data));
-    const SDBDData = JSON.parse(JSON.stringify(data));
-  
-    alert("Found: " + SDBDData.object.fullname);
-    NEOQuery(SDBDData.object.spkid);    
-    console.log("Original spkid: " + SDBDData.object.spkid);
+    const NEOData = JSON.parse(JSON.stringify(data));
+    alert(NEOData.name + "\n" + NEOData.orbital_data.eccentricity + "\n" + 
+      NEOData.orbital_data.perihelion_distance + 
+      "\n" + NEOData.orbital_data.aphelion_distance + 
+      "\n" + NEOData.orbital_data.orbit_class.orbit_class_type);
   })
   .catch(error => {
     console.error('Erro ao buscar dados:', error);
