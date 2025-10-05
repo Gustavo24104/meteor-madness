@@ -31,12 +31,6 @@ img{
     animation: orbit 50s linear infinite;
 }
 
-@keyframes follow-ellipse {
-  to {
-    offset-distance: 100%;
-  }
-}
-
 :root {
     --mercury-size: 2em;
     --venus-size: 2em;
@@ -59,90 +53,131 @@ img{
 .uranus,
 .neptune{
     position: absolute;
+}
+
+.mercury-orbit,
+.venus-orbit,
+.earth-orbit,
+.moon-orbit,
+.mars-orbit,
+.jupiter-orbit,
+.saturn-orbit,
+.uranus-orbit,
+.neptune-orbit{
+    position: absolute;
     border-style: solid;
-    border-color: lightgray lightgray lightgray lightgray;
-    border-width: 0.1em 0.1em 0.1em 0.1em;
+    border-color: rgba(128, 128, 128, 0.5);
+    border-width: 0.1em;
     border-radius: 50%;
 }
+
+
+.mercury-orbit,
 .mercury {
     top: 12.5em;
     left: 12.5em;
     width: 15em;
-    height: 15em;
+    height: 15em; 
+}
+
+ .mercury{
     animation: orbit 68.7s linear infinite;
 }
 
+.venus-orbit,
 .venus {
     top: 10em;
     left: 10em;
     width: 20em;
     height: 20em;
+}
+
+.venus {
     animation: orbit 48.7s linear infinite;
 }
 
-.earth-orbit {
-    position: absolute;
+.earth-orbit,
+.earth {
     top: 6em;
     left: 6em;
-    width: 50em; 
-    height: 28em; 
-    border-style: solid;
-    border-color: rgba(128, 128, 128, 0.5);
-    border-width: 0.1em;
-    border-radius: 50%; 
+    width: 28em; 
+    height: 28em;  
 }
 
 .earth {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%; 
     animation: orbit 3.5s linear infinite;   
-
 }
 
+.moon-orbit,
 .moon {
     top: 2em;
     right: -1em;
     width: 7em;
     height: 7em; 
+}
+
+.moon {
     animation: orbit 2.7s linear infinite;
 }
 
+.mars-orbit,
 .mars {
     top: 2em;
     left: 2.5em;
     width: 36em;
     height: 36em; 
+}
+
+.mars {
     animation: orbit 26.5s linear infinite;
 }
+
+.jupiter-orbit,
 .jupiter {
     top: -2em;
     left: -2em;
     width: 45em;
     height: 45em; 
-    animation: orbit 21s linear infinite;
 }
+
+.jupiter {
+        animation: orbit 21s linear infinite;
+}
+
+.saturn-orbit, 
 .saturn {
     top: -7em;
     left: -7em;
     width: 55em;
     height: 55em; 
-    animation: orbit 17s linear infinite;
 }
+
+.saturn {
+       animation: orbit 17s linear infinite;
+}
+
+.uranus-orbit,
 .uranus {
     top: -12em;
     left: -12em;
     width: 65em;
     height: 65em; 
-    animation: orbit 19s linear infinite;
 }
+
+.uranus {
+        animation: orbit 19s linear infinite;
+}
+
+.neptune-orbit,
 .neptune {
     top: -17em;
     left: -17em;
     width: 75em;
     height: 75em; 
-    animation: orbit 15s linear infinite;
+}
+
+.neptune {
+        animation: orbit 15s linear infinite;
 }
 
 .mercury::before,
@@ -188,12 +223,11 @@ img{
 .moon::before {
     top: 0.8em;
     right: 0.2em;
-    width: 1.2em;
-    height: 1.2em;
+    width: var(--moon-size);
+    height: var(--moon-size);
     background-image: url('./images/moon.png');
     background-size: cover;
 }
-
 .mars::before {
     top: 5em;
     right: 3em;
