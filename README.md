@@ -15,7 +15,7 @@ This project was developed for the **NASA Space Apps Challenge 2025**, under the
 1. Place **all files in the same folder**.
 2. It is recommended to open the application with **Mozilla Firefox** or use the **Live Server extension** (if running in Visual Studio Code).
 3. Open the file **`impact.html`**.
-4. For the best experience, **enable full screen** using the button in the bottom-left corner.
+4. For the best experience, **enable full screen** using the button in the bottom-left corner or the F11 key.
 
 ---
 
