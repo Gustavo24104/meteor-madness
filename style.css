@@ -1,0 +1,281 @@
+/* style.css */
+html, body {
+  height: 100%;
+  margin: 0;
+  background: #081224;
+  color: #e6f0ff;
+  font-family: Arial, sans-serif;
+}
+
+#cesiumContainer {
+  width: 100%;
+  height: 100vh;
+  display: block;
+}
+
+/* estilo base dos painéis (mantém seu visual) */
+.panel {
+  position: absolute;
+  top: 12px;                 /* valor base (será sobrescrito em .panel-right) */
+  width: 320px;
+  padding: 14px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #05203a 0%, #073b5a 100%);
+  color: #e6f0ff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  font-size: 13px;
+  /* Este z-index é intencionalmente baixo para permitir que os botões do Cesium fiquem sobre ele. */
+  z-index: 100; 
+}
+
+/* esquerda como antes */
+.panel-left { left: 12px; top: 12px; }
+
+/* direita: mais para baixo e alinhada à direita */
+.panel-right {
+  right: 12px;
+
+  /* deixa o painel alguns pixels mais baixo */
+  /* ajuste esse valor (ex: 12px + altura dos botões) conforme necessário */
+  top: 52px;   /* -> "alguns pixels mais baixo" (mude para 48, 60, etc) */
+
+  /* z-index menor que a UI do Cesium para ficar abaixo dos botões */
+  z-index: 100;
+}
+
+/* Exemplo de sobrescrita da toolbar do Cesium (caso precise elevar os botões acima do painel) */
+/* Atenção: o nome da classe pode variar por versão/tema; use DevTools para confirmar. */
+.cesium-viewer .cesium-viewer-toolbar,
+.cesium-widget .cesium-viewer-toolbar {
+  z-index: 1000 !important;  /* garante que os botões fiquem acima dos painéis */
+}
+
+
+#panel h2 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+}
+
+label {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #cfe8ff;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 8px 6px;
+  margin-top: 4px;
+  border-radius: 6px;
+  border: none;
+  box-sizing: border-box;
+}
+
+.legend {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.legend div {
+  margin: 6px 0;
+}
+
+.swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+  vertical-align: middle;
+  border-radius: 3px;
+}
+
+/* cores das swatches (substitui os style="background:..." inline) */
+.swatch.gray     { background: gray; }
+.swatch.thermal  { background: #ff6b6b; }
+.swatch.shock    { background: #57a0ff; }
+.swatch.seismic  { background: #63d68e; }
+
+#outputs {
+  margin-top: 12px;
+  background: rgba(255,255,255,0.03);
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.out-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(255,255,255,0.03);
+}
+
+.out-row:last-child {
+  border-bottom: none;
+}
+
+.small {
+  font-size: 12px;
+  color: #bcd7ff;
+  margin-top: 8px;
+}
+
+#status {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #bcd7ff;
+}
+
+.hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #a9c9ff;
+}
+
+button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  background: #0b65b3;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:hover {
+  background: #0a59a8;
+}
+
+/* === NEO Search styles === */
+.search-section {
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+.search-section input#neo-search {
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  border-radius: 6px;
+  border: none;
+  box-sizing: border-box;
+  background: rgba(255,255,255,0.03);
+  color: #e6f0ff;
+  outline: none;
+}
+
+.search-controls .small-btn,
+#search-full-btn,
+.small-btn {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: none;
+  background: #0b65b3;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12px;
+}
+#search-full-btn:hover,
+.small-btn:hover { background: #0a59a8; }
+
+.autocomplete-list {
+  list-style: none;
+  margin: 8px 0 0 0;
+  padding: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.02);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+.autocomplete-item {
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #e6f0ff;
+  border-bottom: 1px dashed rgba(255,255,255,0.02);
+}
+.autocomplete-item:hover,
+.autocomplete-item[aria-selected="true"] {
+  background: rgba(255,255,255,0.02);
+}
+
+/* selected NEO info block */
+.neo-info {
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.02);
+  font-size: 13px;
+  color: #cfe8ff;
+}
+.neo-info .neo-name {
+  font-weight: 700;
+  color: #e6f0ff;
+  margin-bottom: 6px;
+}
+.neo-info .neo-row { display:flex; justify-content:space-between; margin:4px 0; }
+.neo-info .neo-row .label { color:#9fc9ff; font-size:12px; }
+.neo-info .neo-row .value { color:#e6f0ff; font-size:12px; }
+
+/* 1) Tornar o painel direito rolável internamente */
+/* Ajuste o top se você estiver usando outro offset (ex: 52px) */
+.panel-right {
+  /* se já houver top definido, pode manter; caso queira controle, use a variável abaixo */
+  --panel-top-offset: 52px; /* ajuste conforme sua posição atual do painel-right */
+  top: var(--panel-top-offset);
+  /* limita altura do painel para caber na viewport e habilita scroll interno */
+  max-height: calc(100vh - var(--panel-top-offset) - 16px);
+  overflow-y: auto;
+  padding-right: 8px; /* espaço extra para scrollbar sem colar no conteúdo */
+}
+
+/* opcional: style para a barra de rolagem (estético, em browsers WebKit) */
+.panel-right::-webkit-scrollbar { width: 10px; }
+.panel-right::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.06);
+  border-radius: 8px;
+}
+.panel-right::-webkit-scrollbar-track { background: transparent; }
+
+/* 2) estilos já existentes dos detalhes (mantém o visual) */
+.neo-info { /* já tinha; garantir padding interno para leitura */
+  padding-bottom: 6px;
+}
+
+/* 3) ações (Aplicar + Limpar) lado a lado */
+.panel-actions { display:flex; gap:8px; align-items:center; }
+
+.apply-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  background: linear-gradient(180deg, #0b65b3, #095a9a);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+.apply-btn:hover { filter: brightness(0.95); }
+
+.clear-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  background: #666;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+.clear-btn:hover { filter: brightness(0.95); }
+
+/* responsividade: em telas muito estreitas empilha os botões */
+@media (max-width: 420px) {
+  .panel-actions { flex-direction: column; }
+}
