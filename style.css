@@ -1,283 +1,281 @@
-body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: black;
-    overflow: hidden;
-}
-.container {
-    font-size: 3px;
-    width: 40em;
-    height: 40em;
-    position: relative;
-}
-img{
-    height: 130%;
-    width: 130%;
-}
-.sun {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 15em;
-    left: 15em;
-    width: 10em;
-    height: 10em;
-    border-radius: 50%;
-    box-shadow: 0 0 3em rgb(255, 128, 0);
-    animation: orbit 50s linear infinite;
+/* style.css */
+html, body {
+  height: 100%;
+  margin: 0;
+  background: #081224;
+  color: #e6f0ff;
+  font-family: Arial, sans-serif;
 }
 
-:root {
-    --mercury-size: 2em;
-    --venus-size: 2em;
-    --earth-size: 5em;
-    --moon-size: 1.2em;
-    --mars-size: 3em;
-    --jupiter-size: 5em;
-    --saturn-size: 4.5em;
-    --uranus-size: 4em;
-    --neptune-size: 4em;
+#cesiumContainer {
+  width: 100%;
+  height: 100vh;
+  display: block;
 }
 
-.mercury,
-.venus,
-.earth,
-.moon,
-.mars,
-.jupiter,
-.saturn,
-.uranus,
-.neptune{
-    position: absolute;
+/* estilo base dos painéis (mantém seu visual) */
+.panel {
+  position: absolute;
+  top: 12px;                 /* valor base (será sobrescrito em .panel-right) */
+  width: 320px;
+  padding: 14px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #05203a 0%, #073b5a 100%);
+  color: #e6f0ff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  font-size: 13px;
+  /* Este z-index é intencionalmente baixo para permitir que os botões do Cesium fiquem sobre ele. */
+  z-index: 100; 
 }
 
-.mercury-orbit,
-.venus-orbit,
-.earth-orbit,
-.moon-orbit,
-.mars-orbit,
-.jupiter-orbit,
-.saturn-orbit,
-.uranus-orbit,
-.neptune-orbit{
-    position: absolute;
-    border-style: solid;
-    border-color: rgba(128, 128, 128, 0.5);
-    border-width: 0.1em;
-    border-radius: 50%;
+/* esquerda como antes */
+.panel-left { left: 12px; top: 12px; }
+
+/* direita: mais para baixo e alinhada à direita */
+.panel-right {
+  right: 12px;
+
+  /* deixa o painel alguns pixels mais baixo */
+  /* ajuste esse valor (ex: 12px + altura dos botões) conforme necessário */
+  top: 52px;   /* -> "alguns pixels mais baixo" (mude para 48, 60, etc) */
+
+  /* z-index menor que a UI do Cesium para ficar abaixo dos botões */
+  z-index: 100;
+}
+
+/* Exemplo de sobrescrita da toolbar do Cesium (caso precise elevar os botões acima do painel) */
+/* Atenção: o nome da classe pode variar por versão/tema; use DevTools para confirmar. */
+.cesium-viewer .cesium-viewer-toolbar,
+.cesium-widget .cesium-viewer-toolbar {
+  z-index: 1000 !important;  /* garante que os botões fiquem acima dos painéis */
 }
 
 
-.mercury-orbit,
-.mercury {
-    top: 12.5em;
-    left: 12.5em;
-    width: 15em;
-    height: 15em; 
+#panel h2 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
 }
 
- .mercury{
-    animation: orbit 68.7s linear infinite;
+label {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #cfe8ff;
 }
 
-.venus-orbit,
-.venus {
-    top: 10em;
-    left: 10em;
-    width: 20em;
-    height: 20em;
+input[type="number"] {
+  width: 100%;
+  padding: 8px 6px;
+  margin-top: 4px;
+  border-radius: 6px;
+  border: none;
+  box-sizing: border-box;
 }
 
-.venus {
-    animation: orbit 48.7s linear infinite;
+.legend {
+  margin-top: 10px;
+  font-size: 13px;
 }
 
-.earth-orbit,
-.earth {
-    top: 6em;
-    left: 6em;
-    width: 28em; 
-    height: 28em;  
+.legend div {
+  margin: 6px 0;
 }
 
-.earth {
-    animation: orbit 3.5s linear infinite;   
+.swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+  vertical-align: middle;
+  border-radius: 3px;
 }
 
-.moon-orbit,
-.moon {
-    top: 2em;
-    right: -1em;
-    width: 7em;
-    height: 7em; 
+/* cores das swatches (substitui os style="background:..." inline) */
+.swatch.gray     { background: gray; }
+.swatch.thermal  { background: #ff6b6b; }
+.swatch.shock    { background: #57a0ff; }
+.swatch.seismic  { background: #63d68e; }
+
+#outputs {
+  margin-top: 12px;
+  background: rgba(255,255,255,0.03);
+  padding: 8px;
+  border-radius: 6px;
 }
 
-.moon {
-    animation: orbit 2.7s linear infinite;
+.out-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(255,255,255,0.03);
 }
 
-.mars-orbit,
-.mars {
-    top: 2em;
-    left: 2.5em;
-    width: 36em;
-    height: 36em; 
+.out-row:last-child {
+  border-bottom: none;
 }
 
-.mars {
-    animation: orbit 26.5s linear infinite;
+.small {
+  font-size: 12px;
+  color: #bcd7ff;
+  margin-top: 8px;
 }
 
-.jupiter-orbit,
-.jupiter {
-    top: -2em;
-    left: -2em;
-    width: 45em;
-    height: 45em; 
+#status {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #bcd7ff;
 }
 
-.jupiter {
-        animation: orbit 21s linear infinite;
+.hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #a9c9ff;
 }
 
-.saturn-orbit, 
-.saturn {
-    top: -7em;
-    left: -7em;
-    width: 55em;
-    height: 55em; 
+button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  background: #0b65b3;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
 }
 
-.saturn {
-       animation: orbit 17s linear infinite;
+button:hover {
+  background: #0a59a8;
 }
 
-.uranus-orbit,
-.uranus {
-    top: -12em;
-    left: -12em;
-    width: 65em;
-    height: 65em; 
+/* === NEO Search styles === */
+.search-section {
+  margin-top: 12px;
+  font-size: 13px;
 }
 
-.uranus {
-        animation: orbit 19s linear infinite;
+.search-section input#neo-search {
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  border-radius: 6px;
+  border: none;
+  box-sizing: border-box;
+  background: rgba(255,255,255,0.03);
+  color: #e6f0ff;
+  outline: none;
 }
 
-.neptune-orbit,
-.neptune {
-    top: -17em;
-    left: -17em;
-    width: 75em;
-    height: 75em; 
+.search-controls .small-btn,
+#search-full-btn,
+.small-btn {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: none;
+  background: #0b65b3;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12px;
+}
+#search-full-btn:hover,
+.small-btn:hover { background: #0a59a8; }
+
+.autocomplete-list {
+  list-style: none;
+  margin: 8px 0 0 0;
+  padding: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.02);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.03);
 }
 
-.neptune {
-        animation: orbit 15s linear infinite;
+.autocomplete-item {
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #e6f0ff;
+  border-bottom: 1px dashed rgba(255,255,255,0.02);
+}
+.autocomplete-item:hover,
+.autocomplete-item[aria-selected="true"] {
+  background: rgba(255,255,255,0.02);
 }
 
-.mercury::before,
-.venus::before,
-.earth::before,
-.moon::before,
-.mars::before,
-.jupiter::before,
-.saturn::before,
-.uranus::before,
-.neptune::before{
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    animation: orbit 30s linear infinite;
+/* selected NEO info block */
+.neo-info {
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.02);
+  font-size: 13px;
+  color: #cfe8ff;
 }
-.mercury::before {
-    top: 1.5em;
-    right: 0.8em;
-    width: var(--mercury-size);
-    height: var(--mercury-size);
-    background-image: url('./images/mercury.png');
-    background-size: cover;
+.neo-info .neo-name {
+  font-weight: 700;
+  color: #e6f0ff;
+  margin-bottom: 6px;
 }
-.venus::before {
-    top: 2em;
-    right: 2em;
-    width: var(--venus-size);
-    height: var(--venus-size);
-    background-image: url('./images/venus.png');
-    background-size: cover;
-}
-.earth::before {
-    top: 2.5em;
-    right: 0em;
-    width: var(--earth-size);
-    height: var(--earth-size);
-    background-image: url('./images/earth.png');
-    transform: scale(1);
-    background-size: cover;
+.neo-info .neo-row { display:flex; justify-content:space-between; margin:4px 0; }
+.neo-info .neo-row .label { color:#9fc9ff; font-size:12px; }
+.neo-info .neo-row .value { color:#e6f0ff; font-size:12px; }
+
+/* 1) Tornar o painel direito rolável internamente */
+/* Ajuste o top se você estiver usando outro offset (ex: 52px) */
+.panel-right {
+  /* se já houver top definido, pode manter; caso queira controle, use a variável abaixo */
+  --panel-top-offset: 52px; /* ajuste conforme sua posição atual do painel-right */
+  top: var(--panel-top-offset);
+  /* limita altura do painel para caber na viewport e habilita scroll interno */
+  max-height: calc(100vh - var(--panel-top-offset) - 16px);
+  overflow-y: auto;
+  padding-right: 8px; /* espaço extra para scrollbar sem colar no conteúdo */
 }
 
-.moon::before {
-    top: 0.8em;
-    right: 0.2em;
-    width: var(--moon-size);
-    height: var(--moon-size);
-    background-image: url('./images/moon.png');
-    background-size: cover;
+/* opcional: style para a barra de rolagem (estético, em browsers WebKit) */
+.panel-right::-webkit-scrollbar { width: 10px; }
+.panel-right::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.06);
+  border-radius: 8px;
 }
-.mars::before {
-    top: 5em;
-    right: 3em;
-    width: var(--mars-size);
-    height: var(--mars-size);
-    background-image: url('./images/mars.png');
-    background-size: cover;
-}
-.jupiter::before {
-    top: 6em;
-    right: 3em;
-    width: var(--jupiter-size);
-    height: var(--jupiter-size);
-    background-image: url('./images/jupiter.png');
-    background-size: cover;
-}
-.saturn::before {
-    top: 7.5em;
-    right: 5em;
-    width: var(--saturn-size);
-    height: var(--saturn-size);
-    background-image: url('./images/saturn.png');
-    background-size: cover;
-}
-.uranus::before {
-    top: 9em;
-    right: 6.5em;
-    width: var(--uranus-size);
-    height: var(--uranus-size);
-    background-image: url('./images/uranus.png');
-    background-size: cover;
-}
-.neptune::before {
-    top: 10em;
-    right: 8em;
-    width: var(--neptune-size);
-    height: var(--neptune-size);
-    background-image: url('./images/neptune.png');
-    background-size: cover;
+.panel-right::-webkit-scrollbar-track { background: transparent; }
+
+/* 2) estilos já existentes dos detalhes (mantém o visual) */
+.neo-info { /* já tinha; garantir padding interno para leitura */
+  padding-bottom: 6px;
 }
 
-.star {
-    position: absolute;
-    background-color: white;
-    border-radius: 50%;
-    z-index: -1;
-}
+/* 3) ações (Aplicar + Limpar) lado a lado */
+.panel-actions { display:flex; gap:8px; align-items:center; }
 
-@keyframes orbit {
-    to {
-        transform: rotate(360deg);
-    }
+.apply-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  background: linear-gradient(180deg, #0b65b3, #095a9a);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+.apply-btn:hover { filter: brightness(0.95); }
+
+.clear-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  background: #666;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+.clear-btn:hover { filter: brightness(0.95); }
+
+/* responsividade: em telas muito estreitas empilha os botões */
+@media (max-width: 420px) {
+  .panel-actions { flex-direction: column; }
 }

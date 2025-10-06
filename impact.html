@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Simulação de Impacto — Visual</title>
+
+    <!-- Cesium (CDN) -->
+    <!-- Cesium (CDN) -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/cesium@1.110/Build/Cesium/Widgets/widgets.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/cesium@1.110/Build/Cesium/Cesium.js"></script>
+  </head>
+  <body>
+    <div class="panel panel-left">
+      <h2>Simulação de Impacto</h2>
+
+      <label for="diam">Diâmetro do meteoro (m)</label>
+      <input id="diam" type="number" value="50" min="0.1" step="0.1" />
+
+      <label for="dens">Densidade (kg/m³)</label>
+      <input id="dens" type="number" value="3000" min="100" step="10" />
+
+      <label for="vel">Velocidade (km/s)</label>
+      <input id="vel" type="number" value="20" min="0.1" step="0.1" />
+
+      <label for="angle">Ângulo de entrada (°)</label>
+      <input id="angle" type="number" value="45" min="1" max="89" step="1" />
+
+      <div class="small">
+        Clique em qualquer ponto do globo para posicionar o impacto. Os
+        resultados aparecerão abaixo.
+      </div>
+
+      <div id="outputs">
+        <div class="out-row">
+          <div>Raio da cratera</div>
+          <div id="out_crater">—</div>
+        </div>
+        <div class="out-row">
+          <div>Raio — radiação térmica</div>
+          <div id="out_thermal">—</div>
+        </div>
+        <div class="out-row">
+          <div>Raio — onda de choque (≈0.75 bar)</div>
+          <div id="out_shock">—</div>
+        </div>
+        <div class="out-row">
+          <div>Raio — zona sísmica (Mercalli VI)</div>
+          <div id="out_seismic">—</div>
+        </div>
+      </div>
+
+      <div class="legend">
+        <div><span class="swatch" style="background: gray"></span> Cratera</div>
+        <div>
+          <span class="swatch" style="background: #ff6b6b"></span> Radiação
+          Térmica
+        </div>
+        <div>
+          <span class="swatch" style="background: #57a0ff"></span> Onda de
+          Choque
+        </div>
+        <div>
+          <span class="swatch" style="background: #63d68e"></span> Zona Sísmica
+        </div>
+      </div>
+
+      <div id="status">Status: aguardando impacto (clique no globo).</div>
+    </div>
+
+
+    <div id="cesiumContainer"></div>
+
+<div class="panel panel-right">
+  <h2 style="margin:0 0 8px 0; font-size:16px;">Informações</h2>
+
+  <!-- botões de navegação entre páginas -->
+  <div style="display:flex; justify-content:flex-end;">
+    <button id="panel-close-btn" class="small-btn">Fechar</button>
+  </div>
+
+  <!-- === Seção de busca NEO === -->
+  <div id="neo-search-section" class="search-section">
+    <h3 style="margin:10px 0 6px 0; font-size:14px;">Procurar asteroides (NEO)</h3>
+
+    <label for="neo-search" class="small">Nome do asteroide</label>
+    <input id="neo-search" type="search" placeholder="Digite parte do nome (ex: Eros)" autocomplete="off" />
+
+    <div class="search-controls" style="display:flex; gap:8px; margin-top:8px;">
+      <button id="search-full-btn" class="small-btn">Buscar</button>
+      <span id="neo-search-status" class="small" style="align-self:center; margin-left:4px;">inicializando...</span>
+    </div>
+
+    <ul id="neo-suggestions" class="autocomplete-list" role="listbox" aria-label="Sugestões de asteroides"></ul>
+
+
+<!-- Detalhes do NEO (colocar dentro do .panel-right) -->
+<div id="neo-info" class="neo-info" aria-live="polite" data-neo-id="">
+  <div class="neo-row">
+    <div class="label">Nome:</div>
+    <div id="neo-name" class="value">—</div>
+  </div>
+
+  <div class="neo-row">
+    <div class="label">Diâmetro (km):</div>
+    <div id="neo-diameter" class="value">—</div>
+  </div>
+
+  <div class="neo-row">
+    <div class="label">Perigoso:</div>
+    <div id="neo-hazard" class="value">—</div>
+  </div>
+
+  <div class="neo-row">
+    <div class="label">Velocidade (km/s):</div>
+    <div id="neo-velocity" class="value">—</div>
+  </div>
+
+  <hr class="neo-sep" />
+
+  <div class="section-title">Primeira Aproximação Registrada</div>
+  <div class="neo-row"><div class="label">Data</div><div id="neo-first-date" class="value">—</div></div>
+  <div class="neo-row"><div class="label">Distância (AU)</div><div id="neo-first-dist" class="value">—</div></div>
+  <div class="neo-row"><div class="label">Corpo</div><div id="neo-first-body" class="value">—</div></div>
+
+  <hr class="mini-sep" />
+
+  <div class="section-title">Última Aproximação Registrada</div>
+  <div class="neo-row"><div class="label">Data</div><div id="neo-last-date" class="value">—</div></div>
+  <div class="neo-row"><div class="label">Distância (AU)</div><div id="neo-last-dist" class="value">—</div></div>
+  <div class="neo-row"><div class="label">Corpo</div><div id="neo-last-body" class="value">—</div></div>
+
+  <hr class="neo-sep" />
+
+  <div class="section-title">Dados de órbita</div>
+  <div class="neo-row"><div class="label">Períhelio (AU)</div><div id="neo-perihelion" class="value">—</div></div>
+  <div class="neo-row"><div class="label">Afélio (AU)</div><div id="neo-aphelion" class="value">—</div></div>
+  <div class="neo-row"><div class="label">Ecentricidade</div><div id="neo-ecc" class="value">—</div></div>
+  <div class="neo-row"><div class="label">Inclinação (°)</div><div id="neo-inc" class="value">—</div></div>
+
+  <!-- botão aplicar (sem funcionalidade por enquanto) -->
+  <!-- Ações finais: Aplicar + Limpar (lado a lado) -->
+  <div class="panel-actions" style="margin-top:10px;">
+    <button id="neo-apply-btn" class="apply-btn">Aplicar</button>
+    <button id="neo-clear-btn" class="clear-btn">Limpar</button>
+  </div>
+  </div>
+</div>
+
+
+  </div>
+  
+<!-- Substitua o antigo #neo-info por este bloco -->
+
+
+
+</div>
+
+
+    <script src="scripts.js"></script>
+
+  </body>
+</html>
